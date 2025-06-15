@@ -39,7 +39,134 @@ export class Visualizers {
         this.setupLighting();
     }
 
-    // ... [rest of the code remains exactly the same] ...
+    initializeRenderer() {
+        this.renderer.setSize(this.canvas.width, this.canvas.height);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.renderer.setClearColor(0x000000, 0);
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    }
+
+    initializeCamera() {
+        this.camera.position.z = 5;
+        this.camera.lookAt(0, 0, 0);
+    }
+
+    setupLighting() {
+        // Ambient light
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+        this.scene.add(ambientLight);
+
+        // Directional light
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 10, 5);
+        directionalLight.castShadow = true;
+        directionalLight.shadow.mapSize.width = 2048;
+        directionalLight.shadow.mapSize.height = 2048;
+        this.scene.add(directionalLight);
+    }
+
+    // Placeholder methods for visualization algorithms
+    updateVisualization(audioData) {
+        if (!audioData) return;
+        
+        this.time += 0.016; // Approximate 60fps
+        
+        switch (this.currentAlgorithm) {
+            case 'particles':
+                this.updateParticles(audioData);
+                break;
+            case 'waveform':
+                this.updateWaveform(audioData);
+                break;
+            case 'spectrum':
+                this.updateSpectrum(audioData);
+                break;
+            default:
+                this.updateParticles(audioData);
+        }
+        
+        this.renderer.render(this.scene, this.camera);
+    }
+
+    updateParticles(audioData) {
+        // Basic particle system implementation
+        if (this.particles.length === 0) {
+            this.createParticles();
+        }
+        
+        // Update particles based on audio data
+        const bassLevel = audioData.frequencyData ? audioData.frequencyData[0] / 255 : 0;
+        const beatStrength = this.beatDetector.detectBeat(bassLevel);
+        
+        this.particles.forEach((particle, index) => {
+            if (particle && particle.position) {
+                particle.position.y += Math.sin(this.time + index * 0.1) * 0.01;
+                particle.position.x += Math.cos(this.time + index * 0.1) * 0.01;
+                
+                if (beatStrength > 0) {
+                    particle.scale.setScalar(1 + beatStrength * 0.5);
+                }
+            }
+        });
+    }
+
+    updateWaveform(audioData) {
+        // Placeholder for waveform visualization
+        console.log('Waveform visualization not implemented');
+    }
+
+    updateSpectrum(audioData) {
+        // Placeholder for spectrum visualization
+        console.log('Spectrum visualization not implemented');
+    }
+
+    createParticles() {
+        const geometry = new THREE.SphereGeometry(0.02, 8, 8);
+        const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        
+        for (let i = 0; i < this.settings.particleCount; i++) {
+            const particle = new THREE.Mesh(geometry, material.clone());
+            particle.position.set(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10
+            );
+            this.particles.push(particle);
+            this.scene.add(particle);
+        }
+    }
+
+    setAlgorithm(algorithm) {
+        this.currentAlgorithm = algorithm;
+    }
+
+    updateSettings(newSettings) {
+        this.settings = { ...this.settings, ...newSettings };
+    }
+
+    resize(width, height) {
+        this.camera.aspect = width / height;
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(width, height);
+    }
+
+    dispose() {
+        // Clean up resources
+        this.particles.forEach(particle => {
+            this.scene.remove(particle);
+            if (particle.geometry) particle.geometry.dispose();
+            if (particle.material) particle.material.dispose();
+        });
+        this.particles = [];
+        
+        this.geometries.forEach(geometry => {
+            if (geometry.dispose) geometry.dispose();
+        });
+        this.geometries = [];
+        
+        this.renderer.dispose();
+    }
 }
 
 // Beat Detection Class
