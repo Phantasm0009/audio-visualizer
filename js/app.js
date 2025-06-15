@@ -40,19 +40,19 @@ class MusicVisualizerApp {
             return;
         }
         
-        // Load genre classifier
-        document.getElementById('statusIndicator').textContent = 'Loading ML Model...';
+        // Load enhanced genre classifier
+        document.getElementById('statusIndicator').textContent = 'Loading Enhanced ML Model...';
         await this.genreClassifier.loadModel();
         document.getElementById('statusIndicator').textContent = 'Ready - Upload Audio File';
         
-        // Initialize visualizers
+        // Initialize enhanced visualizers
         this.visualizers = new Visualizers(this.canvas, this.audioProcessor);
         this.visualizers.setAlgorithm(this.currentSettings.algorithm);
         
         // Start animation loop
         this.animate();
         
-        console.log('Music Visualizer App initialized successfully');
+        console.log('Enhanced Music Visualizer App initialized successfully');
     }
 
     setupCanvas() {
@@ -149,7 +149,7 @@ class MusicVisualizerApp {
             document.getElementById('statusIndicator').textContent = 'Ready';
         });
 
-        // Algorithm selection
+        // Enhanced algorithm selection with new visualizers
         document.getElementById('algorithmSelect').addEventListener('change', (e) => {
             this.currentSettings.algorithm = e.target.value;
             if (this.visualizers) {
@@ -178,7 +178,7 @@ class MusicVisualizerApp {
             this.updateVisualizerSettings();
         });
 
-        // Preset buttons
+        // Enhanced preset buttons
         document.querySelectorAll('.preset-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const preset = btn.dataset.preset;
@@ -190,7 +190,7 @@ class MusicVisualizerApp {
             });
         });
 
-        // Color palette selection
+        // Enhanced color palette selection
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', () => {
                 const palette = option.dataset.palette;
@@ -217,7 +217,7 @@ class MusicVisualizerApp {
             this.audioProcessor.updateSettings({ fftSize: e.target.value });
         });
 
-        // Share functionality
+        // Enhanced share functionality
         document.getElementById('shareBtn').addEventListener('click', () => {
             this.openShareModal();
         });
@@ -226,6 +226,116 @@ class MusicVisualizerApp {
         document.getElementById('demoBtn').addEventListener('click', () => {
             this.toggleDemoMode();
         });
+
+        // Add import preset functionality
+        this.setupImportPreset();
+    }
+
+    setupImportPreset() {
+        // Create import preset button and modal
+        const importBtn = document.createElement('button');
+        importBtn.textContent = 'Import Preset';
+        importBtn.className = 'btn btn-secondary';
+        importBtn.style.marginLeft = '10px';
+        
+        // Add to header controls
+        const headerControls = document.querySelector('.header-controls');
+        headerControls.insertBefore(importBtn, document.getElementById('shareBtn'));
+        
+        // Create import modal
+        const importModal = document.createElement('div');
+        importModal.id = 'importModal';
+        importModal.className = 'modal';
+        importModal.innerHTML = `
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Import Preset</h2>
+                    <button class="close-btn" onclick="closeImportModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="import-content">
+                        <p>Paste your preset code below:</p>
+                        <textarea id="importPresetCode" placeholder="Paste preset code here..." class="preset-textarea"></textarea>
+                        <div class="share-buttons">
+                            <button class="btn btn-primary" onclick="importPreset()">Import Preset</button>
+                            <button class="btn btn-secondary" onclick="closeImportModal()">Cancel</button>
+                        </div>
+                        <div id="importStatus" style="margin-top: 10px; color: #4ecdc4;"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(importModal);
+        
+        // Add event listener for import button
+        importBtn.addEventListener('click', () => {
+            document.getElementById('importModal').style.display = 'block';
+        });
+        
+        // Add global functions for import modal
+        window.closeImportModal = () => {
+            document.getElementById('importModal').style.display = 'none';
+            document.getElementById('importPresetCode').value = '';
+            document.getElementById('importStatus').textContent = '';
+        };
+        
+        window.importPreset = () => {
+            const presetCode = document.getElementById('importPresetCode').value.trim();
+            const statusDiv = document.getElementById('importStatus');
+            
+            if (!presetCode) {
+                statusDiv.textContent = 'Please paste a preset code';
+                statusDiv.style.color = '#ff6b6b';
+                return;
+            }
+            
+            try {
+                const importedSettings = this.genreClassifier.importPreset(presetCode);
+                
+                // Apply imported settings
+                this.currentSettings = { ...this.currentSettings, ...importedSettings };
+                this.updateUIFromSettings();
+                this.updateVisualizerSettings();
+                
+                statusDiv.textContent = 'Preset imported successfully!';
+                statusDiv.style.color = '#4ecdc4';
+                
+                // Close modal after 2 seconds
+                setTimeout(() => {
+                    window.closeImportModal();
+                }, 2000);
+                
+            } catch (error) {
+                statusDiv.textContent = error.message;
+                statusDiv.style.color = '#ff6b6b';
+            }
+        };
+    }
+
+    updateUIFromSettings() {
+        // Update all UI elements to reflect current settings
+        document.getElementById('algorithmSelect').value = this.currentSettings.algorithm;
+        document.getElementById('sensitivity').value = this.currentSettings.sensitivity;
+        document.getElementById('colorIntensity').value = this.currentSettings.colorIntensity;
+        document.getElementById('motionSpeed').value = this.currentSettings.motionSpeed;
+        document.getElementById('particleCount').value = this.currentSettings.particleCount;
+        
+        // Update value displays
+        document.getElementById('sensitivityValue').textContent = this.currentSettings.sensitivity;
+        document.getElementById('colorIntensityValue').textContent = this.currentSettings.colorIntensity;
+        document.getElementById('motionSpeedValue').textContent = this.currentSettings.motionSpeed;
+        document.getElementById('particleCountValue').textContent = this.currentSettings.particleCount;
+        
+        // Update color palette
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.classList.toggle('active', option.dataset.palette === this.currentSettings.colorPalette);
+        });
+        
+        // Update algorithm if visualizers are loaded
+        if (this.visualizers) {
+            this.visualizers.setAlgorithm(this.currentSettings.algorithm);
+        }
     }
 
     setupSlider(id, callback) {
@@ -252,28 +362,9 @@ class MusicVisualizerApp {
         this.currentSettings = { ...this.currentSettings, ...preset };
         
         // Update UI
-        document.getElementById('algorithmSelect').value = preset.algorithm;
-        document.getElementById('sensitivity').value = preset.sensitivity;
-        document.getElementById('colorIntensity').value = preset.colorIntensity;
-        document.getElementById('motionSpeed').value = preset.motionSpeed;
-        document.getElementById('particleCount').value = preset.particleCount;
+        this.updateUIFromSettings();
         
-        // Update value displays
-        document.getElementById('sensitivityValue').textContent = preset.sensitivity;
-        document.getElementById('colorIntensityValue').textContent = preset.colorIntensity;
-        document.getElementById('motionSpeedValue').textContent = preset.motionSpeed;
-        document.getElementById('particleCountValue').textContent = preset.particleCount;
-        
-        // Update color palette
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.classList.toggle('active', option.dataset.palette === preset.colorPalette);
-        });
-        
-        // Apply to visualizer
-        if (this.visualizers) {
-            this.visualizers.setAlgorithm(preset.algorithm);
-            this.visualizers.updateSettings(this.currentSettings);
-        }
+        console.log(`Applied preset: ${presetName}`, preset);
     }
 
     async animate() {
@@ -292,9 +383,9 @@ class MusicVisualizerApp {
                     // Extract audio features for genre classification
                     const audioFeatures = this.audioProcessor.extractFeatures();
                     
-                    // Classify genre periodically (every 2 seconds)
-                    if (Math.floor(Date.now() / 2000) !== this.lastGenreUpdate) {
-                        this.lastGenreUpdate = Math.floor(Date.now() / 2000);
+                    // Classify genre periodically (every 3 seconds for better accuracy)
+                    if (Math.floor(Date.now() / 3000) !== this.lastGenreUpdate) {
+                        this.lastGenreUpdate = Math.floor(Date.now() / 3000);
                         try {
                             this.updateGenreClassification(audioFeatures);
                         } catch (error) {
@@ -310,14 +401,15 @@ class MusicVisualizerApp {
     }
 
     createDemoVisualization() {
-        // Create demo animation even without audio
+        // Enhanced demo animation
         if (!this.visualizers) return;
         
         const time = Date.now() * 0.001;
         
-        // Update camera for demo
-        this.visualizers.camera.position.x = Math.sin(time * 0.2) * 5;
-        this.visualizers.camera.position.y = Math.cos(time * 0.15) * 3;
+        // Create more dynamic demo movement
+        this.visualizers.camera.position.x = Math.sin(time * 0.3) * 8 + Math.cos(time * 0.1) * 3;
+        this.visualizers.camera.position.y = Math.cos(time * 0.25) * 5 + Math.sin(time * 0.15) * 2;
+        this.visualizers.camera.position.z = 50 + Math.sin(time * 0.2) * 10;
         this.visualizers.camera.lookAt(0, 0, 0);
         
         // Render the scene
@@ -352,8 +444,8 @@ class MusicVisualizerApp {
             const confidenceLevel = document.getElementById('confidenceLevel');
             confidenceLevel.style.width = (result.confidence * 100) + '%';
             
-            // Auto-apply preset if confidence is high
-            if (result.confidence > 0.7) {
+            // Enhanced auto-apply preset with higher confidence threshold
+            if (result.confidence > 0.75) {
                 // Find if any preset button matches the detected genre
                 const presetBtn = document.querySelector(`[data-preset="${result.genre}"]`);
                 if (presetBtn && !presetBtn.classList.contains('active')) {
@@ -362,12 +454,42 @@ class MusicVisualizerApp {
                     if (!activePreset) {
                         this.applyPreset(result.genre);
                         presetBtn.classList.add('active');
+                        
+                        // Show notification
+                        this.showNotification(`Auto-applied ${result.genre} preset (${Math.round(result.confidence * 100)}% confidence)`);
                     }
                 }
             }
         } catch (error) {
             console.error('Error updating genre classification:', error);
         }
+    }
+
+    showNotification(message) {
+        // Create and show notification
+        const notification = document.createElement('div');
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 3000;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 3000);
     }
 
     updateFrequencyDisplay() {
@@ -377,37 +499,27 @@ class MusicVisualizerApp {
         // Clear existing bars
         frequencyDisplay.innerHTML = '';
         
-        // Create frequency bars (show only first 32 for performance)
-        for (let i = 0; i < 32; i++) {
+        // Create enhanced frequency bars (show 64 for better resolution)
+        for (let i = 0; i < 64; i++) {
             const bar = document.createElement('div');
             bar.className = 'freq-bar';
-            bar.style.height = (frequencyData[i] / 255 * 100) + 'px';
+            const height = (frequencyData[i] / 255 * 120) + 'px';
+            bar.style.height = height;
+            bar.style.background = `hsl(${i * 5}, 70%, 60%)`;
             frequencyDisplay.appendChild(bar);
         }
     }
 
     openShareModal() {
-        const presetData = {
-            settings: this.currentSettings,
-            timestamp: Date.now(),
-            version: '1.0'
-        };
-        
-        const presetCode = btoa(JSON.stringify(presetData));
-        document.getElementById('presetCode').value = presetCode;
+        const presetData = this.genreClassifier.exportPreset(this.currentSettings);
+        document.getElementById('presetCode').value = presetData;
         document.getElementById('shareModal').style.display = 'block';
     }
 
     updateUI() {
         // Set initial values
-        document.getElementById('sensitivityValue').textContent = this.currentSettings.sensitivity;
-        document.getElementById('colorIntensityValue').textContent = this.currentSettings.colorIntensity;
-        document.getElementById('motionSpeedValue').textContent = this.currentSettings.motionSpeed;
-        document.getElementById('particleCountValue').textContent = this.currentSettings.particleCount;
+        this.updateUIFromSettings();
         document.getElementById('smoothingValue').textContent = '0.8';
-        
-        // Set active color palette
-        document.querySelector(`[data-palette="${this.currentSettings.colorPalette}"]`).classList.add('active');
     }
 
     dispose() {
@@ -465,6 +577,7 @@ window.savePreset = function() {
 window.addEventListener('click', (e) => {
     const settingsModal = document.getElementById('settingsModal');
     const shareModal = document.getElementById('shareModal');
+    const importModal = document.getElementById('importModal');
     
     if (e.target === settingsModal) {
         settingsModal.style.display = 'none';
@@ -472,6 +585,10 @@ window.addEventListener('click', (e) => {
     
     if (e.target === shareModal) {
         shareModal.style.display = 'none';
+    }
+    
+    if (e.target === importModal) {
+        importModal.style.display = 'none';
     }
 });
 
