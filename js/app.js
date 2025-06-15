@@ -377,8 +377,9 @@ class MusicVisualizerApp {
                     // Demo mode - create fake audio data for testing
                     this.createDemoVisualization();
                 } else {
-                    // Regular audio mode
-                    this.visualizers.animate();
+                    // Regular audio mode - get frequency data and pass to visualizer
+                    const frequencyData = this.audioProcessor.getFrequencyData();
+                    this.visualizers.updateVisualization({ frequencyData });
                     
                     // Extract audio features for genre classification
                     const audioFeatures = this.audioProcessor.extractFeatures();
