@@ -4,9 +4,16 @@ export default defineConfig({
   root: '.',
   server: {
     port: 8080,
-    open: true
+    open: true,
+    host: true
   },
   build: {
-    outDir: 'dist'
+    outDir: 'dist',
+    rollupOptions: {
+      external: ['three', '@tensorflow/tfjs']
+    }
+  },
+  optimizeDeps: {
+    include: ['three', '@tensorflow/tfjs']
   }
 });

@@ -1,4 +1,4 @@
-class AudioProcessor {
+export class AudioProcessor {
     constructor() {
         this.audioContext = null;
         this.analyser = null;
@@ -67,7 +67,9 @@ class AudioProcessor {
             console.error('Error loading audio file:', error);
             return false;
         }
-    }    connectToAudioElement(audioElement) {
+    }
+
+    connectToAudioElement(audioElement) {
         if (!this.audioContext) {
             this.initializeAudio();
         }
@@ -91,7 +93,9 @@ class AudioProcessor {
             console.error('Error connecting to audio element:', error);
             return false;
         }
-    }    getFrequencyData() {
+    }
+
+    getFrequencyData() {
         if (!this.analyser) {
             // Return empty array if no analyser
             this.frequencyData.fill(0);
@@ -181,7 +185,9 @@ class AudioProcessor {
     // Calculate energy
     calculateEnergy(frequencyData) {
         return frequencyData.reduce((sum, val) => sum + val * val, 0) / frequencyData.length;
-    }    // Simple chroma feature extraction
+    }
+
+    // Simple chroma feature extraction
     calculateChroma(frequencyData) {
         const chroma = new Array(12).fill(0);
         

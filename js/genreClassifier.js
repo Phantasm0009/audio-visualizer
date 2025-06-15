@@ -1,4 +1,6 @@
-class GenreClassifier {
+import * as tf from '@tensorflow/tfjs';
+
+export class GenreClassifier {
     constructor() {
         this.model = null;
         this.isLoaded = false;
@@ -133,7 +135,9 @@ class GenreClassifier {
                 layer.setWeights(newWeights);
             }
         }
-    }    extractMLFeatures(audioFeatures) {
+    }
+
+    extractMLFeatures(audioFeatures) {
         // Combine audio features for ML model (ensure exactly 26 features)
         const features = [
             audioFeatures.spectralCentroid / 1000, // Normalize
@@ -152,7 +156,9 @@ class GenreClassifier {
         features.length = 26;
         
         return features;
-    }    calculateMFCC(audioFeatures) {
+    }
+
+    calculateMFCC(audioFeatures) {
         // Simplified MFCC calculation
         // In a real implementation, you would use proper MFCC extraction
         const mfcc = new Array(9); // Changed to 9 to match total feature count

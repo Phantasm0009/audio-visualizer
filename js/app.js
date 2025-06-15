@@ -1,8 +1,17 @@
+import * as THREE from 'three';
+import * as tf from '@tensorflow/tfjs';
+
+// Import modules
+import { AudioProcessor } from './audioProcessor.js';
+import { Visualizers } from './visualizers.js';
+import { GenreClassifier } from './genreClassifier.js';
+
 class MusicVisualizerApp {
     constructor() {
         this.audioProcessor = new AudioProcessor();
         this.genreClassifier = new GenreClassifier();
-        this.visualizers = null;        this.isPlaying = false;
+        this.visualizers = null;
+        this.isPlaying = false;
         this.demoMode = false;
         this.animationId = null;
         this.canvas = null;
@@ -17,7 +26,9 @@ class MusicVisualizerApp {
         };
         
         this.init();
-    }    async init() {
+    }
+
+    async init() {
         this.setupCanvas();
         this.setupEventListeners();
         this.updateUI();
@@ -70,7 +81,9 @@ class MusicVisualizerApp {
     setupEventListeners() {
         // Audio file input
         const audioFileInput = document.getElementById('audioFile');
-        const audioPlayer = document.getElementById('audioPlayer');        audioFileInput.addEventListener('change', async (e) => {
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        audioFileInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file) {
                 try {
@@ -110,7 +123,9 @@ class MusicVisualizerApp {
                     document.getElementById('fileName').textContent = 'Failed to load: ' + file.name;
                 }
             }
-        });        // Audio player events
+        });
+
+        // Audio player events
         audioPlayer.addEventListener('play', async () => {
             // Resume audio context if suspended
             if (this.audioProcessor.audioContext && this.audioProcessor.audioContext.state === 'suspended') {
@@ -200,7 +215,9 @@ class MusicVisualizerApp {
 
         document.getElementById('fftSize').addEventListener('change', (e) => {
             this.audioProcessor.updateSettings({ fftSize: e.target.value });
-        });        // Share functionality
+        });
+
+        // Share functionality
         document.getElementById('shareBtn').addEventListener('click', () => {
             this.openShareModal();
         });
@@ -257,7 +274,9 @@ class MusicVisualizerApp {
             this.visualizers.setAlgorithm(preset.algorithm);
             this.visualizers.updateSettings(this.currentSettings);
         }
-    }    async animate() {
+    }
+
+    async animate() {
         this.animationId = requestAnimationFrame(() => this.animate());
         
         if (this.visualizers) {
@@ -272,7 +291,8 @@ class MusicVisualizerApp {
                     
                     // Extract audio features for genre classification
                     const audioFeatures = this.audioProcessor.extractFeatures();
-                      // Classify genre periodically (every 2 seconds)
+                    
+                    // Classify genre periodically (every 2 seconds)
                     if (Math.floor(Date.now() / 2000) !== this.lastGenreUpdate) {
                         this.lastGenreUpdate = Math.floor(Date.now() / 2000);
                         try {
@@ -287,7 +307,9 @@ class MusicVisualizerApp {
                 }
             }
         }
-    }createDemoVisualization() {
+    }
+
+    createDemoVisualization() {
         // Create demo animation even without audio
         if (!this.visualizers) return;
         
@@ -403,15 +425,15 @@ class MusicVisualizerApp {
 }
 
 // Global functions for modal management
-function closeModal() {
+window.closeModal = function() {
     document.getElementById('settingsModal').style.display = 'none';
-}
+};
 
-function closeShareModal() {
+window.closeShareModal = function() {
     document.getElementById('shareModal').style.display = 'none';
-}
+};
 
-function copyPreset() {
+window.copyPreset = function() {
     const presetCode = document.getElementById('presetCode');
     presetCode.select();
     document.execCommand('copy');
@@ -423,9 +445,9 @@ function copyPreset() {
     setTimeout(() => {
         btn.textContent = originalText;
     }, 2000);
-}
+};
 
-function savePreset() {
+window.savePreset = function() {
     const presetCode = document.getElementById('presetCode').value;
     const blob = new Blob([presetCode], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -437,7 +459,7 @@ function savePreset() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-}
+};
 
 // Close modals when clicking outside
 window.addEventListener('click', (e) => {

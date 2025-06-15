@@ -12,7 +12,8 @@
         <!-- Header -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">🎵 Algorithmic Music Visualizer</h1>                <div class="header-controls">
+                <h1 class="logo">🎵 Algorithmic Music Visualizer</h1>
+                <div class="header-controls">
                     <button id="demoBtn" class="btn btn-secondary">Demo Mode</button>
                     <button id="shareBtn" class="btn btn-secondary">Share Preset</button>
                     <button id="settingsBtn" class="btn btn-secondary">⚙️</button>
@@ -177,11 +178,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
-    <script src="js/audioProcessor.js"></script>
-    <script src="js/visualizers.js"></script>
-    <script src="js/genreClassifier.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>

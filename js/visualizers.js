@@ -1,4 +1,6 @@
-class Visualizers {
+import * as THREE from 'three';
+
+export class Visualizers {
     constructor(canvas, audioProcessor) {
         this.canvas = canvas;
         this.audioProcessor = audioProcessor;
@@ -42,7 +44,9 @@ class Visualizers {
     initializeCamera() {
         this.camera.position.z = 50;
         this.camera.lookAt(0, 0, 0);
-    }    setupLighting() {
+    }
+
+    setupLighting() {
         // Ambient light
         const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
         this.scene.add(ambientLight);
@@ -111,7 +115,8 @@ class Visualizers {
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
-          const material = new THREE.ShaderMaterial({
+        
+        const material = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
                 pointTexture: { value: this.createPointTexture() }
@@ -147,7 +152,8 @@ class Visualizers {
             blending: THREE.AdditiveBlending,
             depthTest: false,
             transparent: true,
-            vertexColors: true        });
+            vertexColors: true
+        });
         
         try {
             this.particleSystem = new THREE.Points(geometry, material);
@@ -226,7 +232,9 @@ class Visualizers {
         
         this.fractal = createFractalGeometry(3, 5);
         this.scene.add(this.fractal);
-    }    // Fluid Dynamics Simulation
+    }
+
+    // Fluid Dynamics Simulation
     initializeFluid() {
         this.clearScene();
         
@@ -462,7 +470,9 @@ class Visualizers {
         };
         
         updateColors(this.fractal);
-    }    updateFluid(frequencyData) {
+    }
+
+    updateFluid(frequencyData) {
         if (!this.fluidMesh) return;
         
         this.fluidMesh.material.uniforms.time.value = this.time;
