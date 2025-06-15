@@ -1,0 +1,48 @@
+{
+  "name": "algorithmic-music-visualizer",
+  "version": "1.0.0",
+  "description": "Real-time generative art that converts local music files into evolving visuals using signal processing and machine learning",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8080",
+    "build": "echo 'No build process required for this client-side application'",
+    "serve": "python -m http.server"
+  },
+  "keywords": [
+    "music",
+    "visualization",
+    "webaudio",
+    "threejs",
+    "tensorflow",
+    "machine-learning",
+    "generative-art",
+    "real-time",
+    "audio-processing",
+    "3d-graphics"
+  ],
+  "author": "Music Visualizer Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/algorithmic-music-visualizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/algorithmic-music-visualizer/issues"
+  },
+  "homepage": "https://github.com/your-username/algorithmic-music-visualizer#readme",
+  "dependencies": {
+    "three": "^0.155.0",
+    "@tensorflow/tfjs": "^4.10.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions"
+  ]
+}

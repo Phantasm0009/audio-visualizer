@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithmic Music Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🎵 Algorithmic Music Visualizer</h1>                <div class="header-controls">
+                    <button id="demoBtn" class="btn btn-secondary">Demo Mode</button>
+                    <button id="shareBtn" class="btn btn-secondary">Share Preset</button>
+                    <button id="settingsBtn" class="btn btn-secondary">⚙️</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="section">
+                    <h3>Audio Source</h3>
+                    <div class="file-upload">
+                        <input type="file" id="audioFile" accept="audio/*" hidden>
+                        <button class="btn btn-primary" onclick="document.getElementById('audioFile').click()">
+                            Choose Audio File
+                        </button>
+                        <div id="fileName" class="file-name"></div>
+                    </div>
+                    <audio id="audioPlayer" controls style="width: 100%; margin-top: 10px;"></audio>
+                </div>
+
+                <div class="section">
+                    <h3>Visualization Algorithm</h3>
+                    <select id="algorithmSelect" class="select-input">
+                        <option value="particles">Particle System</option>
+                        <option value="waveform">Dynamic Waveform</option>
+                        <option value="fractal">Fractal Generator</option>
+                        <option value="fluid">Fluid Dynamics</option>
+                        <option value="geometric">Geometric Patterns</option>
+                    </select>
+                </div>
+
+                <div class="section">
+                    <h3>Genre Detection</h3>
+                    <div id="genreResult" class="genre-display">
+                        <span class="genre-label">Detected Genre:</span>
+                        <span id="detectedGenre" class="genre-value">Loading...</span>
+                        <div class="confidence-bar">
+                            <div id="confidenceLevel" class="confidence-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Visual Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn" data-preset="electronic">Electronic</button>
+                        <button class="preset-btn" data-preset="rock">Rock</button>
+                        <button class="preset-btn" data-preset="classical">Classical</button>
+                        <button class="preset-btn" data-preset="jazz">Jazz</button>
+                        <button class="preset-btn" data-preset="ambient">Ambient</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Customization</h3>
+                    <div class="control-group">
+                        <label>Sensitivity</label>
+                        <input type="range" id="sensitivity" min="0.1" max="2" step="0.1" value="1" class="slider">
+                        <span id="sensitivityValue">1.0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Color Intensity</label>
+                        <input type="range" id="colorIntensity" min="0.1" max="2" step="0.1" value="1" class="slider">
+                        <span id="colorIntensityValue">1.0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Motion Speed</label>
+                        <input type="range" id="motionSpeed" min="0.1" max="3" step="0.1" value="1" class="slider">
+                        <span id="motionSpeedValue">1.0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Particle Count</label>
+                        <input type="range" id="particleCount" min="100" max="2000" step="100" value="1000" class="slider">
+                        <span id="particleCountValue">1000</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Color Scheme</h3>
+                    <div class="color-palette">
+                        <div class="color-option" data-palette="rainbow" style="background: linear-gradient(45deg, red, orange, yellow, green, blue, purple);"></div>
+                        <div class="color-option" data-palette="ocean" style="background: linear-gradient(45deg, #006994, #0099cc, #00ccff);"></div>
+                        <div class="color-option" data-palette="fire" style="background: linear-gradient(45deg, #ff4500, #ff6600, #ffaa00);"></div>
+                        <div class="color-option" data-palette="neon" style="background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);"></div>
+                        <div class="color-option" data-palette="monochrome" style="background: linear-gradient(45deg, #000, #666, #fff);"></div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Visualization Canvas -->
+            <div class="visualization-container">
+                <canvas id="visualizer"></canvas>
+                <div class="canvas-overlay">
+                    <div id="frequencyDisplay" class="frequency-display"></div>
+                    <div id="statusIndicator" class="status-indicator">Ready</div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Advanced Settings</h2>
+                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <h4>Audio Analysis</h4>
+                        <div class="control-group">
+                            <label>FFT Size</label>
+                            <select id="fftSize" class="select-input">
+                                <option value="512">512</option>
+                                <option value="1024" selected>1024</option>
+                                <option value="2048">2048</option>
+                                <option value="4096">4096</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Smoothing</label>
+                            <input type="range" id="smoothing" min="0" max="0.9" step="0.1" value="0.8" class="slider">
+                            <span id="smoothingValue">0.8</span>
+                        </div>
+                    </div>
+                    <div class="setting-group">
+                        <h4>Performance</h4>
+                        <div class="control-group">
+                            <label>Target FPS</label>
+                            <select id="targetFPS" class="select-input">
+                                <option value="30">30 FPS</option>
+                                <option value="60" selected>60 FPS</option>
+                                <option value="120">120 FPS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Share Preset</h2>
+                    <button class="close-btn" onclick="closeShareModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-content">
+                        <p>Share your custom visualization preset:</p>
+                        <textarea id="presetCode" readonly class="preset-textarea"></textarea>
+                        <div class="share-buttons">
+                            <button class="btn btn-primary" onclick="copyPreset()">Copy to Clipboard</button>
+                            <button class="btn btn-secondary" onclick="savePreset()">Save Locally</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.18.0/dist/tf.min.js"></script>
+    <script src="js/audioProcessor.js"></script>
+    <script src="js/visualizers.js"></script>
+    <script src="js/genreClassifier.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
