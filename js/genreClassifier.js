@@ -4,130 +4,178 @@ export class GenreClassifier {
     constructor() {
         this.model = null;
         this.isLoaded = false;
-        this.genres = ['rock', 'electronic', 'jazz', 'classical', 'pop', 'hip-hop', 'ambient', 'folk', 'metal', 'reggae', 'blues', 'country'];
-        this.featureHistory = [];
-        this.maxHistoryLength = 150;
-        this.confidenceThreshold = 0.6;
+        this.genres = [
+            'rock', 'electronic', 'jazz', 'classical', 'pop', 'hip-hop', 
+            'ambient', 'folk', 'metal', 'reggae', 'blues', 'country',
+            'dubstep', 'house', 'techno', 'trance'
+        ];
         
-        // Enhanced genre-specific presets
+        this.featureHistory = [];
+        this.maxHistoryLength = 200;
+        this.confidenceThreshold = 0.65;
+        
+        // Enhanced genre-specific presets with new algorithms
         this.genrePresets = {
             electronic: {
-                algorithm: 'quantum',
-                sensitivity: 1.8,
-                colorIntensity: 2.0,
-                motionSpeed: 2.5,
-                particleCount: 1800,
+                algorithm: 'sdf',
+                sensitivity: 1.9,
+                colorIntensity: 2.2,
+                motionSpeed: 2.8,
+                particleCount: 2500,
                 colorPalette: 'cyberpunk'
             },
             rock: {
                 algorithm: 'geometric',
-                sensitivity: 2.0,
-                colorIntensity: 1.8,
-                motionSpeed: 2.2,
-                particleCount: 1500,
+                sensitivity: 2.1,
+                colorIntensity: 1.9,
+                motionSpeed: 2.4,
+                particleCount: 2000,
                 colorPalette: 'fire'
             },
             classical: {
-                algorithm: 'neural',
-                sensitivity: 0.9,
-                colorIntensity: 1.3,
-                motionSpeed: 0.8,
-                particleCount: 1000,
+                algorithm: 'supershapes',
+                sensitivity: 0.8,
+                colorIntensity: 1.4,
+                motionSpeed: 0.7,
+                particleCount: 1200,
                 colorPalette: 'aurora'
             },
             jazz: {
-                algorithm: 'fluid',
-                sensitivity: 1.3,
-                colorIntensity: 1.5,
-                motionSpeed: 1.2,
-                particleCount: 1200,
+                algorithm: 'klein',
+                sensitivity: 1.4,
+                colorIntensity: 1.6,
+                motionSpeed: 1.3,
+                particleCount: 1500,
                 colorPalette: 'sunset'
             },
             ambient: {
                 algorithm: 'mandelbrot',
-                sensitivity: 0.7,
-                colorIntensity: 1.0,
-                motionSpeed: 0.6,
+                sensitivity: 0.6,
+                colorIntensity: 1.1,
+                motionSpeed: 0.5,
                 particleCount: 800,
                 colorPalette: 'ocean'
             },
             pop: {
                 algorithm: 'particles',
-                sensitivity: 1.4,
-                colorIntensity: 1.7,
-                motionSpeed: 1.6,
-                particleCount: 1300,
+                sensitivity: 1.5,
+                colorIntensity: 1.8,
+                motionSpeed: 1.7,
+                particleCount: 1800,
                 colorPalette: 'rainbow'
             },
             'hip-hop': {
                 algorithm: 'geometric',
-                sensitivity: 1.9,
-                colorIntensity: 1.9,
-                motionSpeed: 1.8,
-                particleCount: 1600,
+                sensitivity: 2.0,
+                colorIntensity: 2.0,
+                motionSpeed: 1.9,
+                particleCount: 2200,
                 colorPalette: 'neon'
             },
             folk: {
                 algorithm: 'waveform',
-                sensitivity: 1.1,
-                colorIntensity: 1.2,
-                motionSpeed: 1.0,
-                particleCount: 900,
+                sensitivity: 1.2,
+                colorIntensity: 1.3,
+                motionSpeed: 1.1,
+                particleCount: 1000,
                 colorPalette: 'sunset'
             },
             metal: {
                 algorithm: 'fractal',
-                sensitivity: 2.2,
-                colorIntensity: 2.0,
-                motionSpeed: 2.5,
-                particleCount: 2000,
+                sensitivity: 2.4,
+                colorIntensity: 2.1,
+                motionSpeed: 2.7,
+                particleCount: 3000,
                 colorPalette: 'fire'
             },
             reggae: {
                 algorithm: 'dna',
-                sensitivity: 1.2,
-                colorIntensity: 1.4,
-                motionSpeed: 1.1,
-                particleCount: 1100,
+                sensitivity: 1.3,
+                colorIntensity: 1.5,
+                motionSpeed: 1.2,
+                particleCount: 1300,
                 colorPalette: 'aurora'
             },
             blues: {
                 algorithm: 'fluid',
-                sensitivity: 1.0,
-                colorIntensity: 1.3,
-                motionSpeed: 0.9,
-                particleCount: 950,
+                sensitivity: 1.1,
+                colorIntensity: 1.4,
+                motionSpeed: 1.0,
+                particleCount: 1100,
                 colorPalette: 'ocean'
             },
             country: {
                 algorithm: 'waveform',
-                sensitivity: 1.1,
-                colorIntensity: 1.2,
-                motionSpeed: 1.0,
-                particleCount: 1000,
+                sensitivity: 1.2,
+                colorIntensity: 1.3,
+                motionSpeed: 1.1,
+                particleCount: 1200,
                 colorPalette: 'sunset'
+            },
+            dubstep: {
+                algorithm: 'sdf',
+                sensitivity: 2.5,
+                colorIntensity: 2.3,
+                motionSpeed: 3.0,
+                particleCount: 4000,
+                colorPalette: 'cyberpunk'
+            },
+            house: {
+                algorithm: 'quantum',
+                sensitivity: 1.8,
+                colorIntensity: 2.0,
+                motionSpeed: 2.2,
+                particleCount: 2000,
+                colorPalette: 'neon'
+            },
+            techno: {
+                algorithm: 'neural',
+                sensitivity: 2.0,
+                colorIntensity: 2.1,
+                motionSpeed: 2.5,
+                particleCount: 2500,
+                colorPalette: 'matrix'
+            },
+            trance: {
+                algorithm: 'supershapes',
+                sensitivity: 1.7,
+                colorIntensity: 1.9,
+                motionSpeed: 2.0,
+                particleCount: 1800,
+                colorPalette: 'vaporwave'
             }
         };
         
-        // Advanced audio feature weights for better classification
+        // Advanced audio feature weights
         this.featureWeights = {
-            spectralCentroid: 0.15,
-            spectralRolloff: 0.12,
-            spectralFlux: 0.18,
-            energy: 0.14,
-            zcr: 0.11,
-            mfcc: 0.20,
-            chroma: 0.10
+            spectralCentroid: 0.12,
+            spectralRolloff: 0.10,
+            spectralFlux: 0.15,
+            energy: 0.12,
+            zcr: 0.09,
+            rms: 0.08,
+            mfcc: 0.18,
+            chroma: 0.08,
+            brightness: 0.08
         };
+        
+        // Preset DNA system for viral sharing
+        this.presetDNA = new PresetDNASystem();
     }
 
     async loadModel() {
         try {
-            // Create an enhanced neural network for genre classification
+            // Create enhanced neural network for genre classification
             this.model = tf.sequential({
                 layers: [
                     tf.layers.dense({
-                        inputShape: [32], // Increased feature count
+                        inputShape: [40], // Increased feature count
+                        units: 256,
+                        activation: 'relu',
+                        kernelRegularizer: tf.regularizers.l2({ l2: 0.001 })
+                    }),
+                    tf.layers.dropout({ rate: 0.4 }),
+                    tf.layers.dense({
                         units: 128,
                         activation: 'relu',
                         kernelRegularizer: tf.regularizers.l2({ l2: 0.001 })
@@ -135,15 +183,13 @@ export class GenreClassifier {
                     tf.layers.dropout({ rate: 0.3 }),
                     tf.layers.dense({
                         units: 64,
-                        activation: 'relu',
-                        kernelRegularizer: tf.regularizers.l2({ l2: 0.001 })
+                        activation: 'relu'
                     }),
-                    tf.layers.dropout({ rate: 0.3 }),
+                    tf.layers.dropout({ rate: 0.2 }),
                     tf.layers.dense({
                         units: 32,
                         activation: 'relu'
                     }),
-                    tf.layers.dropout({ rate: 0.2 }),
                     tf.layers.dense({
                         units: this.genres.length,
                         activation: 'softmax'
@@ -152,13 +198,12 @@ export class GenreClassifier {
             });
 
             this.model.compile({
-                optimizer: tf.train.adam(0.001),
+                optimizer: tf.train.adam(0.0005),
                 loss: 'categoricalCrossentropy',
                 metrics: ['accuracy']
             });
 
-            // Initialize with enhanced pre-trained weights
-            await this.initializeEnhancedWeights();
+            await this.initializeAdvancedWeights();
             
             this.isLoaded = true;
             console.log('Enhanced genre classifier model loaded successfully');
@@ -169,31 +214,34 @@ export class GenreClassifier {
         }
     }
 
-    async initializeEnhancedWeights() {
-        // Generate more sophisticated initial weights based on genre characteristics
+    async initializeAdvancedWeights() {
+        // Enhanced genre characteristics for better classification
         const genreCharacteristics = {
-            rock: { energy: 0.8, zcr: 0.7, spectralFlux: 0.9 },
-            electronic: { spectralCentroid: 0.9, energy: 0.8, spectralFlux: 0.8 },
-            jazz: { chroma: 0.9, spectralCentroid: 0.6, zcr: 0.6 },
-            classical: { chroma: 0.8, spectralCentroid: 0.5, energy: 0.4 },
-            pop: { energy: 0.7, spectralCentroid: 0.7, chroma: 0.6 },
-            'hip-hop': { energy: 0.9, zcr: 0.8, spectralFlux: 0.7 },
-            ambient: { energy: 0.3, spectralCentroid: 0.4, chroma: 0.5 },
-            folk: { chroma: 0.7, energy: 0.5, zcr: 0.4 },
-            metal: { energy: 0.95, zcr: 0.9, spectralFlux: 0.95 },
-            reggae: { energy: 0.6, chroma: 0.8, zcr: 0.5 },
-            blues: { chroma: 0.8, energy: 0.6, spectralCentroid: 0.5 },
-            country: { chroma: 0.7, energy: 0.6, zcr: 0.5 }
+            rock: { energy: 0.85, zcr: 0.75, spectralFlux: 0.9, brightness: 0.7 },
+            electronic: { spectralCentroid: 0.9, energy: 0.8, spectralFlux: 0.85, brightness: 0.9 },
+            jazz: { chroma: 0.9, spectralCentroid: 0.6, zcr: 0.6, harmonicity: 0.8 },
+            classical: { chroma: 0.85, spectralCentroid: 0.5, energy: 0.4, harmonicity: 0.9 },
+            pop: { energy: 0.75, spectralCentroid: 0.7, chroma: 0.65, brightness: 0.6 },
+            'hip-hop': { energy: 0.9, zcr: 0.8, spectralFlux: 0.75, rms: 0.85 },
+            ambient: { energy: 0.3, spectralCentroid: 0.4, chroma: 0.5, brightness: 0.3 },
+            folk: { chroma: 0.75, energy: 0.5, zcr: 0.4, harmonicity: 0.7 },
+            metal: { energy: 0.95, zcr: 0.9, spectralFlux: 0.95, brightness: 0.8 },
+            reggae: { energy: 0.6, chroma: 0.8, zcr: 0.5, rms: 0.6 },
+            blues: { chroma: 0.8, energy: 0.6, spectralCentroid: 0.5, harmonicity: 0.75 },
+            country: { chroma: 0.7, energy: 0.6, zcr: 0.5, harmonicity: 0.65 },
+            dubstep: { energy: 0.95, spectralFlux: 0.95, zcr: 0.85, brightness: 0.9 },
+            house: { energy: 0.85, spectralCentroid: 0.8, spectralFlux: 0.8, brightness: 0.8 },
+            techno: { energy: 0.9, spectralCentroid: 0.85, spectralFlux: 0.85, brightness: 0.85 },
+            trance: { energy: 0.8, spectralCentroid: 0.75, chroma: 0.7, brightness: 0.75 }
         };
 
-        // Initialize weights based on genre characteristics
+        // Initialize with Xavier/Glorot initialization
         for (let i = 0; i < this.model.layers.length; i++) {
             const layer = this.model.layers[i];
             if (layer.getWeights().length > 0) {
                 const layerWeights = layer.getWeights();
                 const newWeights = layerWeights.map(w => {
                     const shape = w.shape;
-                    // Use Xavier/Glorot initialization with genre-specific bias
                     const fan_in = shape.length > 1 ? shape[0] : 1;
                     const fan_out = shape.length > 1 ? shape[1] : shape[0];
                     const limit = Math.sqrt(6 / (fan_in + fan_out));
@@ -204,42 +252,46 @@ export class GenreClassifier {
         }
     }
 
-    extractEnhancedMLFeatures(audioFeatures) {
-        // Extract comprehensive audio features (32 features total)
+    extractAdvancedMLFeatures(audioFeatures) {
+        // Extract comprehensive audio features (40 features total)
         const features = [
-            // Spectral features (normalized)
+            // Basic spectral features (normalized)
             audioFeatures.spectralCentroid / 2000,
             audioFeatures.spectralRolloff / 2000,
             audioFeatures.spectralFlux / 100,
             audioFeatures.energy / 20000,
             audioFeatures.zcr,
+            audioFeatures.rms || 0,
+            audioFeatures.brightness || 0,
+            audioFeatures.roughness || 0,
+            audioFeatures.harmonicity || 0,
             
             // Enhanced MFCC (13 coefficients)
-            ...this.calculateEnhancedMFCC(audioFeatures).slice(0, 13),
+            ...this.calculateAdvancedMFCC(audioFeatures).slice(0, 13),
             
             // Chroma features (12 coefficients)
             ...audioFeatures.chroma.slice(0, 12),
             
             // Additional spectral features
             this.calculateSpectralSpread(audioFeatures),
-            this.calculateSpectralSkewness(audioFeatures)
+            this.calculateSpectralSkewness(audioFeatures),
+            this.calculateSpectralKurtosis(audioFeatures),
+            this.calculateSpectralSlope(audioFeatures)
         ];
         
-        // Ensure exactly 32 features
-        while (features.length < 32) {
+        // Ensure exactly 40 features
+        while (features.length < 40) {
             features.push(0);
         }
-        features.length = 32;
+        features.length = 40;
         
-        // Apply feature normalization
         return this.normalizeFeatures(features);
     }
 
-    calculateEnhancedMFCC(audioFeatures) {
-        // Enhanced MFCC calculation with better frequency resolution
+    calculateAdvancedMFCC(audioFeatures) {
         const mfcc = new Array(13);
         const spectrum = audioFeatures.chroma;
-        const melFilters = this.createMelFilterBank(spectrum.length, 13);
+        const melFilters = this.createAdvancedMelFilterBank(spectrum.length, 13);
         
         for (let i = 0; i < 13; i++) {
             let sum = 0;
@@ -252,7 +304,7 @@ export class GenreClassifier {
         return mfcc;
     }
 
-    createMelFilterBank(spectrumLength, numFilters) {
+    createAdvancedMelFilterBank(spectrumLength, numFilters) {
         const filters = [];
         const melMin = this.hzToMel(80);
         const melMax = this.hzToMel(8000);
@@ -327,8 +379,39 @@ export class GenreClassifier {
         return totalMagnitude > 0 ? skewness / totalMagnitude : 0;
     }
 
+    calculateSpectralKurtosis(audioFeatures) {
+        const spectrum = audioFeatures.chroma;
+        const centroid = audioFeatures.spectralCentroid;
+        const spread = this.calculateSpectralSpread(audioFeatures);
+        
+        if (spread === 0) return 0;
+        
+        let kurtosis = 0;
+        let totalMagnitude = 0;
+        
+        for (let i = 0; i < spectrum.length; i++) {
+            kurtosis += Math.pow((i - centroid) / spread, 4) * spectrum[i];
+            totalMagnitude += spectrum[i];
+        }
+        
+        return totalMagnitude > 0 ? (kurtosis / totalMagnitude) - 3 : 0;
+    }
+
+    calculateSpectralSlope(audioFeatures) {
+        const spectrum = audioFeatures.chroma;
+        let numerator = 0;
+        let denominator = 0;
+        const mean = spectrum.reduce((sum, val) => sum + val, 0) / spectrum.length;
+        
+        for (let i = 0; i < spectrum.length; i++) {
+            numerator += i * (spectrum[i] - mean);
+            denominator += i * i;
+        }
+        
+        return denominator > 0 ? numerator / denominator : 0;
+    }
+
     normalizeFeatures(features) {
-        // Apply z-score normalization
         const mean = features.reduce((sum, val) => sum + val, 0) / features.length;
         const variance = features.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / features.length;
         const stdDev = Math.sqrt(variance + 1e-8);
@@ -338,29 +421,27 @@ export class GenreClassifier {
 
     async classifyGenre(audioFeatures) {
         if (!this.isLoaded || !this.model) {
-            return this.getEnhancedHeuristicClassification(audioFeatures);
+            return this.getAdvancedHeuristicClassification(audioFeatures);
         }
 
         try {
-            const features = this.extractEnhancedMLFeatures(audioFeatures);
+            const features = this.extractAdvancedMLFeatures(audioFeatures);
             
-            // Add to history for temporal smoothing
             this.featureHistory.push(features);
             if (this.featureHistory.length > this.maxHistoryLength) {
                 this.featureHistory.shift();
             }
 
-            // Use temporal averaging for more stable predictions
-            const recentFeatures = this.featureHistory.slice(-20);
+            // Use temporal averaging for stability
+            const recentFeatures = this.featureHistory.slice(-30);
             const avgFeatures = this.averageFeatures(recentFeatures);
             
             const prediction = this.model.predict(tf.tensor2d([avgFeatures]));
             const probabilities = await prediction.data();
             
-            // Apply confidence boosting for clear predictions
-            const boostedProbs = this.applyConfidenceBoosting(probabilities);
+            // Apply confidence boosting
+            const boostedProbs = this.applyAdvancedConfidenceBoosting(probabilities);
             
-            // Find the genre with highest probability
             let maxProb = 0;
             let predictedGenre = 'unknown';
             
@@ -373,8 +454,7 @@ export class GenreClassifier {
             
             prediction.dispose();
             
-            // Apply temporal smoothing to final prediction
-            const smoothedResult = this.applySmoothingFilter({
+            const smoothedResult = this.applyAdvancedSmoothingFilter({
                 genre: predictedGenre,
                 confidence: maxProb,
                 probabilities: Object.fromEntries(
@@ -385,39 +465,35 @@ export class GenreClassifier {
             return smoothedResult;
         } catch (error) {
             console.error('Error during genre classification:', error);
-            return this.getEnhancedHeuristicClassification(audioFeatures);
+            return this.getAdvancedHeuristicClassification(audioFeatures);
         }
     }
 
-    applyConfidenceBoosting(probabilities) {
-        // Boost confidence for clear predictions
+    applyAdvancedConfidenceBoosting(probabilities) {
         const maxProb = Math.max(...probabilities);
-        const secondMaxProb = probabilities.sort((a, b) => b - a)[1];
-        const confidence = maxProb - secondMaxProb;
+        const sortedProbs = [...probabilities].sort((a, b) => b - a);
+        const confidence = maxProb - sortedProbs[1];
         
-        if (confidence > 0.3) {
-            // Clear prediction - boost the winner
+        if (confidence > 0.25) {
             return probabilities.map(prob => 
-                prob === maxProb ? Math.min(prob * 1.2, 1.0) : prob * 0.9
+                prob === maxProb ? Math.min(prob * 1.3, 1.0) : prob * 0.85
             );
         }
         
         return probabilities;
     }
 
-    applySmoothingFilter(currentResult) {
-        // Store recent predictions for smoothing
+    applyAdvancedSmoothingFilter(currentResult) {
         if (!this.recentPredictions) {
             this.recentPredictions = [];
         }
         
         this.recentPredictions.push(currentResult);
-        if (this.recentPredictions.length > 10) {
+        if (this.recentPredictions.length > 15) {
             this.recentPredictions.shift();
         }
         
-        // If we have enough history, apply smoothing
-        if (this.recentPredictions.length >= 5) {
+        if (this.recentPredictions.length >= 8) {
             const genreCounts = {};
             let totalConfidence = 0;
             
@@ -426,7 +502,6 @@ export class GenreClassifier {
                 totalConfidence += pred.confidence;
             });
             
-            // Find most consistent genre
             let bestGenre = currentResult.genre;
             let bestScore = 0;
             
@@ -437,10 +512,9 @@ export class GenreClassifier {
                 }
             }
             
-            // Return smoothed result
             return {
                 genre: bestGenre,
-                confidence: Math.min(bestScore / totalConfidence * 2, 1.0),
+                confidence: Math.min(bestScore / totalConfidence * 2.5, 1.0),
                 probabilities: currentResult.probabilities
             };
         }
@@ -448,65 +522,66 @@ export class GenreClassifier {
         return currentResult;
     }
 
-    getEnhancedHeuristicClassification(audioFeatures) {
-        // Enhanced heuristic classification with more sophisticated rules
-        const { spectralCentroid, energy, zcr, spectralFlux, chroma } = audioFeatures;
+    getAdvancedHeuristicClassification(audioFeatures) {
+        const { spectralCentroid, energy, zcr, spectralFlux, chroma, rms, brightness } = audioFeatures;
         
         let genre = 'unknown';
         let confidence = 0.5;
         
-        // Calculate derived features
-        const brightness = spectralCentroid / 1000;
+        // Enhanced classification with more sophisticated rules
         const energyLevel = energy / 10000;
+        const brightnessLevel = brightness || (spectralCentroid / 1000);
         const rhythmicity = zcr;
         const complexity = spectralFlux / 50;
         const harmonicity = Math.max(...chroma) / (chroma.reduce((sum, val) => sum + val, 0) / chroma.length);
+        const dynamicRange = rms || 0.5;
         
-        // Enhanced classification rules
-        if (energyLevel > 0.8 && complexity > 0.8) {
-            if (rhythmicity > 0.12) {
+        // Multi-dimensional classification
+        if (energyLevel > 0.9 && complexity > 0.9 && brightnessLevel > 0.8) {
+            if (rhythmicity > 0.15) {
+                genre = 'dubstep';
+                confidence = 0.85;
+            } else if (brightnessLevel > 0.9) {
                 genre = 'metal';
                 confidence = 0.8;
-            } else if (brightness > 0.8) {
+            } else {
                 genre = 'electronic';
                 confidence = 0.75;
-            } else {
+            }
+        } else if (energyLevel > 0.8 && rhythmicity > 0.12) {
+            if (harmonicity > 2.2) {
+                genre = 'hip-hop';
+                confidence = 0.75;
+            } else if (brightnessLevel > 0.7) {
                 genre = 'rock';
                 confidence = 0.7;
-            }
-        } else if (energyLevel > 0.6 && rhythmicity > 0.1) {
-            if (harmonicity > 2.0) {
-                genre = 'hip-hop';
-                confidence = 0.7;
             } else {
-                genre = 'pop';
+                genre = 'house';
                 confidence = 0.65;
             }
-        } else if (harmonicity > 2.5 && brightness < 0.6) {
-            if (complexity < 0.3) {
+        } else if (harmonicity > 2.8 && brightnessLevel < 0.6) {
+            if (complexity < 0.3 && dynamicRange < 0.4) {
                 genre = 'classical';
+                confidence = 0.75;
+            } else if (complexity > 0.5) {
+                genre = 'jazz';
                 confidence = 0.7;
             } else {
-                genre = 'jazz';
+                genre = 'blues';
                 confidence = 0.65;
             }
         } else if (energyLevel < 0.4 && complexity < 0.4) {
             genre = 'ambient';
-            confidence = 0.6;
-        } else if (harmonicity > 2.0 && energyLevel < 0.7) {
-            if (rhythmicity < 0.06) {
+            confidence = 0.7;
+        } else if (energyLevel > 0.6 && energyLevel < 0.8) {
+            if (harmonicity > 2.0) {
+                genre = 'pop';
+                confidence = 0.65;
+            } else if (rhythmicity < 0.06) {
                 genre = 'folk';
                 confidence = 0.6;
             } else {
                 genre = 'country';
-                confidence = 0.55;
-            }
-        } else if (harmonicity > 1.8 && energyLevel > 0.5) {
-            if (rhythmicity > 0.08) {
-                genre = 'blues';
-                confidence = 0.6;
-            } else {
-                genre = 'reggae';
                 confidence = 0.55;
             }
         } else {
@@ -525,9 +600,9 @@ export class GenreClassifier {
     }
 
     averageFeatures(featuresArray) {
-        if (featuresArray.length === 0) return new Array(32).fill(0);
+        if (featuresArray.length === 0) return new Array(40).fill(0);
         
-        const avgFeatures = new Array(32).fill(0);
+        const avgFeatures = new Array(40).fill(0);
         
         for (const features of featuresArray) {
             for (let i = 0; i < features.length; i++) {
@@ -546,60 +621,41 @@ export class GenreClassifier {
         return this.genrePresets[genre] || this.genrePresets.pop;
     }
 
-    // Enhanced training with data augmentation
-    async trainOnUserData(audioFeatures, userGenreLabel) {
-        if (!this.isLoaded || !this.model) return;
-
-        try {
-            const features = this.extractEnhancedMLFeatures(audioFeatures);
-            const genreIndex = this.genres.indexOf(userGenreLabel);
-            
-            if (genreIndex === -1) return;
-            
-            // Create one-hot encoded label
-            const label = new Array(this.genres.length).fill(0);
-            label[genreIndex] = 1;
-            
-            // Data augmentation - add slight noise to features
-            const augmentedFeatures = [];
-            const augmentedLabels = [];
-            
-            for (let i = 0; i < 3; i++) {
-                const noisyFeatures = features.map(f => f + (Math.random() - 0.5) * 0.1);
-                augmentedFeatures.push(noisyFeatures);
-                augmentedLabels.push([...label]);
-            }
-            
-            const xs = tf.tensor2d(augmentedFeatures);
-            const ys = tf.tensor2d(augmentedLabels);
-            
-            await this.model.fit(xs, ys, {
-                epochs: 3,
-                verbose: 0,
-                batchSize: 3
-            });
-            
-            xs.dispose();
-            ys.dispose();
-            
-            console.log(`Enhanced model updated with user feedback for genre: ${userGenreLabel}`);
-        } catch (error) {
-            console.error('Error training on user data:', error);
-        }
+    // Enhanced preset DNA system for viral sharing
+    exportPresetDNA(settings) {
+        return this.presetDNA.encode(settings);
     }
 
-    // Import preset from shared code
+    importPresetDNA(dnaCode) {
+        return this.presetDNA.decode(dnaCode);
+    }
+
+    // Legacy export/import for compatibility
+    exportPreset(settings) {
+        const presetData = {
+            settings: settings,
+            timestamp: Date.now(),
+            version: '3.0',
+            metadata: {
+                featureCount: 40,
+                genreCount: this.genres.length,
+                modelVersion: 'advanced',
+                dna: this.exportPresetDNA(settings)
+            }
+        };
+        
+        return btoa(JSON.stringify(presetData));
+    }
+
     importPreset(presetCode) {
         try {
             const presetData = JSON.parse(atob(presetCode));
             
-            // Validate preset structure
             if (!presetData.settings || !presetData.version) {
                 throw new Error('Invalid preset format');
             }
             
-            // Check version compatibility
-            if (presetData.version !== '1.0' && presetData.version !== '2.0') {
+            if (presetData.version !== '3.0' && presetData.version !== '2.0' && presetData.version !== '1.0') {
                 console.warn('Preset version may not be fully compatible');
             }
             
@@ -610,27 +666,108 @@ export class GenreClassifier {
         }
     }
 
-    // Export preset with enhanced metadata
-    exportPreset(settings) {
-        const presetData = {
-            settings: settings,
-            timestamp: Date.now(),
-            version: '2.0',
-            metadata: {
-                featureCount: 32,
-                genreCount: this.genres.length,
-                modelVersion: 'enhanced'
-            }
-        };
-        
-        return btoa(JSON.stringify(presetData));
-    }
-
     dispose() {
         if (this.model) {
             this.model.dispose();
         }
         this.featureHistory = [];
         this.recentPredictions = [];
+    }
+}
+
+// Preset DNA System for viral sharing
+class PresetDNASystem {
+    constructor() {
+        this.algorithms = ['particles', 'waveform', 'fractal', 'fluid', 'geometric', 'neural', 'dna', 'quantum', 'mandelbrot', 'supershapes', 'klein', 'sdf'];
+        this.palettes = ['rainbow', 'ocean', 'fire', 'neon', 'monochrome', 'cyberpunk', 'sunset', 'aurora', 'vaporwave', 'synthwave', 'galaxy', 'matrix'];
+        this.base62 = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    }
+    
+    encode(settings) {
+        // Create 12-character DNA string
+        let dna = '';
+        
+        // Algorithm (2 chars)
+        const algIndex = this.algorithms.indexOf(settings.algorithm) || 0;
+        dna += this.toBase62(algIndex, 2);
+        
+        // Color palette (2 chars)
+        const paletteIndex = this.palettes.indexOf(settings.colorPalette) || 0;
+        dna += this.toBase62(paletteIndex, 2);
+        
+        // Sensitivity (2 chars) - scale 0.1-3.0 to 0-61
+        const sensitivityIndex = Math.round((settings.sensitivity - 0.1) / 2.9 * 61);
+        dna += this.toBase62(sensitivityIndex, 2);
+        
+        // Color intensity (2 chars)
+        const colorIndex = Math.round((settings.colorIntensity - 0.1) / 2.9 * 61);
+        dna += this.toBase62(colorIndex, 2);
+        
+        // Motion speed (2 chars)
+        const motionIndex = Math.round((settings.motionSpeed - 0.1) / 3.9 * 61);
+        dna += this.toBase62(motionIndex, 2);
+        
+        // Particle count (2 chars) - scale 100-10000 to 0-61
+        const particleIndex = Math.round((settings.particleCount - 100) / 9900 * 61);
+        dna += this.toBase62(particleIndex, 2);
+        
+        return dna;
+    }
+    
+    decode(dnaCode) {
+        if (dnaCode.length !== 12) {
+            throw new Error('Invalid DNA code length');
+        }
+        
+        try {
+            // Parse DNA string
+            const algIndex = this.fromBase62(dnaCode.substr(0, 2));
+            const paletteIndex = this.fromBase62(dnaCode.substr(2, 2));
+            const sensitivityIndex = this.fromBase62(dnaCode.substr(4, 2));
+            const colorIndex = this.fromBase62(dnaCode.substr(6, 2));
+            const motionIndex = this.fromBase62(dnaCode.substr(8, 2));
+            const particleIndex = this.fromBase62(dnaCode.substr(10, 2));
+            
+            return {
+                algorithm: this.algorithms[algIndex] || 'particles',
+                colorPalette: this.palettes[paletteIndex] || 'rainbow',
+                sensitivity: 0.1 + (sensitivityIndex / 61) * 2.9,
+                colorIntensity: 0.1 + (colorIndex / 61) * 2.9,
+                motionSpeed: 0.1 + (motionIndex / 61) * 3.9,
+                particleCount: Math.round(100 + (particleIndex / 61) * 9900)
+            };
+        } catch (error) {
+            throw new Error('Invalid DNA code format');
+        }
+    }
+    
+    toBase62(num, length) {
+        let result = '';
+        while (num > 0) {
+            result = this.base62[num % 62] + result;
+            num = Math.floor(num / 62);
+        }
+        return result.padStart(length, '0');
+    }
+    
+    fromBase62(str) {
+        let result = 0;
+        for (let i = 0; i < str.length; i++) {
+            result = result * 62 + this.base62.indexOf(str[i]);
+        }
+        return result;
+    }
+    
+    generateRandomDNA() {
+        const settings = {
+            algorithm: this.algorithms[Math.floor(Math.random() * this.algorithms.length)],
+            colorPalette: this.palettes[Math.floor(Math.random() * this.palettes.length)],
+            sensitivity: 0.5 + Math.random() * 2,
+            colorIntensity: 0.5 + Math.random() * 2,
+            motionSpeed: 0.5 + Math.random() * 2.5,
+            particleCount: 500 + Math.floor(Math.random() * 4500)
+        };
+        
+        return this.encode(settings);
     }
 }

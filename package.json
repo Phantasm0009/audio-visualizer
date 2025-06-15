@@ -1,7 +1,7 @@
 {
-  "name": "algorithmic-music-visualizer",
-  "version": "1.0.0",
-  "description": "Real-time generative art that converts local music files into evolving visuals using signal processing and machine learning",
+  "name": "professional-music-visualizer",
+  "version": "3.0.0",
+  "description": "Professional real-time music visualizer with AI genre detection, 10k+ particles, advanced algorithms, and viral preset DNA sharing system",
   "main": "index.html",
   "scripts": {
     "dev": "vite",
@@ -19,9 +19,19 @@
     "generative-art",
     "real-time",
     "audio-processing",
-    "3d-graphics"
+    "3d-graphics",
+    "ai",
+    "professional",
+    "viral",
+    "social",
+    "preset-dna",
+    "supershapes",
+    "klein-bottle",
+    "sdf-raymarching",
+    "fluid-dynamics",
+    "parametric-geometry"
   ],
-  "author": "Music Visualizer Team",
+  "author": "Professional Music Visualizer Team",
   "license": "MIT",
   "dependencies": {
     "three": "^0.158.0",
@@ -32,12 +42,20 @@
   },
   "type": "module",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "browserslist": [
     "last 2 Chrome versions",
     "last 2 Firefox versions",
     "last 2 Safari versions",
     "last 2 Edge versions"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/professional-music-visualizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/professional-music-visualizer/issues"
+  },
+  "homepage": "https://your-username.github.io/professional-music-visualizer"
 }

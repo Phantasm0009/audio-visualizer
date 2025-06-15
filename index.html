@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Algorithmic Music Visualizer</title>
+    <title>Professional Music Visualizer - AI-Powered Real-Time Audio Art</title>
+    <meta name="description" content="Professional music visualizer with AI genre detection, 10k+ particles, advanced algorithms, and viral preset DNA sharing system.">
+    <meta name="keywords" content="music visualizer, audio visualization, AI, machine learning, WebGL, Three.js, real-time, generative art">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Professional Music Visualizer - AI-Powered Audio Art">
+    <meta property="og:description" content="Create stunning real-time visualizations from your music with AI genre detection and advanced algorithms.">
+    <meta property="og:image" content="/preview.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Professional Music Visualizer">
+    <meta name="twitter:description" content="AI-powered music visualization with 10k+ particles and viral preset sharing.">
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
+        <!-- Enhanced Header -->
         <header class="header">
             <div class="header-content">
-                <h1 class="logo">🎵 Enhanced Music Visualizer</h1>
+                <h1 class="logo">🎵 Professional Music Visualizer</h1>
                 <div class="header-controls">
                     <button id="demoBtn" class="btn btn-secondary">Demo Mode</button>
                     <button id="shareBtn" class="btn btn-secondary">Share Preset</button>
-                    <button id="settingsBtn" class="btn btn-secondary">⚙️</button>
+                    <button id="settingsBtn" class="btn btn-secondary">⚙️ Settings</button>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Sidebar -->
+            <!-- Enhanced Sidebar -->
             <aside class="sidebar">
                 <div class="section">
                     <h3>Audio Source</h3>
@@ -38,22 +51,25 @@
                 </div>
 
                 <div class="section">
-                    <h3>Visualization Algorithm</h3>
+                    <h3>Advanced Visualization Algorithms</h3>
                     <select id="algorithmSelect" class="select-input">
-                        <option value="particles">Enhanced Particles</option>
+                        <option value="particles">Enhanced Particles (10k+)</option>
                         <option value="waveform">Dynamic Waveform</option>
                         <option value="fractal">Fractal Generator</option>
                         <option value="fluid">Fluid Dynamics</option>
-                        <option value="geometric">Geometric Patterns</option>
+                        <option value="geometric">Parametric Geometry</option>
                         <option value="neural">Neural Network</option>
                         <option value="dna">DNA Helix</option>
                         <option value="quantum">Quantum Field</option>
                         <option value="mandelbrot">Mandelbrot 3D</option>
+                        <option value="supershapes">Supershapes</option>
+                        <option value="klein">Klein Bottle</option>
+                        <option value="sdf">SDF Ray-marching</option>
                     </select>
                 </div>
 
                 <div class="section">
-                    <h3>Enhanced Genre Detection</h3>
+                    <h3>AI Genre Detection</h3>
                     <div id="genreResult" class="genre-display">
                         <span class="genre-label">Detected Genre:</span>
                         <span id="detectedGenre" class="genre-value">Loading...</span>
@@ -61,13 +77,13 @@
                             <div id="confidenceLevel" class="confidence-fill"></div>
                         </div>
                         <div class="genre-info">
-                            <small>Enhanced ML model with 12 genres</small>
+                            <small>Advanced ML model with 16 genres</small>
                         </div>
                     </div>
                 </div>
 
                 <div class="section">
-                    <h3>Enhanced Visual Presets</h3>
+                    <h3>Professional Presets</h3>
                     <div class="preset-buttons">
                         <button class="preset-btn" data-preset="electronic">Electronic</button>
                         <button class="preset-btn" data-preset="rock">Rock</button>
@@ -81,11 +97,15 @@
                         <button class="preset-btn" data-preset="reggae">Reggae</button>
                         <button class="preset-btn" data-preset="blues">Blues</button>
                         <button class="preset-btn" data-preset="country">Country</button>
+                        <button class="preset-btn" data-preset="dubstep">Dubstep</button>
+                        <button class="preset-btn" data-preset="house">House</button>
+                        <button class="preset-btn" data-preset="techno">Techno</button>
+                        <button class="preset-btn" data-preset="trance">Trance</button>
                     </div>
                 </div>
 
                 <div class="section">
-                    <h3>Advanced Customization</h3>
+                    <h3>Professional Controls</h3>
                     <div class="control-group">
                         <label>Sensitivity</label>
                         <input type="range" id="sensitivity" min="0.1" max="3" step="0.1" value="1" class="slider">
@@ -103,13 +123,13 @@
                     </div>
                     <div class="control-group">
                         <label>Particle Count</label>
-                        <input type="range" id="particleCount" min="100" max="3000" step="100" value="1000" class="slider">
-                        <span id="particleCountValue">1000</span>
+                        <input type="range" id="particleCount" min="500" max="10000" step="250" value="2000" class="slider">
+                        <span id="particleCountValue">2000</span>
                     </div>
                 </div>
 
                 <div class="section">
-                    <h3>Enhanced Color Schemes</h3>
+                    <h3>Professional Color Palettes</h3>
                     <div class="color-palette">
                         <div class="color-option" data-palette="rainbow" style="background: linear-gradient(45deg, red, orange, yellow, green, blue, purple);" title="Rainbow"></div>
                         <div class="color-option" data-palette="ocean" style="background: linear-gradient(45deg, #006994, #0099cc, #00ccff);" title="Ocean"></div>
@@ -119,11 +139,15 @@
                         <div class="color-option" data-palette="cyberpunk" style="background: linear-gradient(45deg, #ff0080, #00ffff, #ff8000);" title="Cyberpunk"></div>
                         <div class="color-option" data-palette="sunset" style="background: linear-gradient(45deg, #ff4500, #ff6347, #ffa500);" title="Sunset"></div>
                         <div class="color-option" data-palette="aurora" style="background: linear-gradient(45deg, #00ff7f, #00bfff, #9370db);" title="Aurora"></div>
+                        <div class="color-option" data-palette="vaporwave" style="background: linear-gradient(45deg, #ff00ff, #00ffff, #ff1493);" title="Vaporwave"></div>
+                        <div class="color-option" data-palette="synthwave" style="background: linear-gradient(45deg, #ff0080, #ff8000, #ffff00);" title="Synthwave"></div>
+                        <div class="color-option" data-palette="galaxy" style="background: linear-gradient(45deg, #191970, #4b0082, #8a2be2);" title="Galaxy"></div>
+                        <div class="color-option" data-palette="matrix" style="background: linear-gradient(45deg, #003300, #00ff00, #66ff66);" title="Matrix"></div>
                     </div>
                 </div>
             </aside>
 
-            <!-- Visualization Canvas -->
+            <!-- Enhanced Visualization Canvas -->
             <div class="visualization-container">
                 <canvas id="visualizer"></canvas>
                 <div class="canvas-overlay">
@@ -140,7 +164,7 @@
         <div id="settingsModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Advanced Settings</h2>
+                    <h2>Professional Settings</h2>
                     <button class="close-btn" onclick="closeModal()">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -150,8 +174,8 @@
                             <label>FFT Size</label>
                             <select id="fftSize" class="select-input">
                                 <option value="512">512</option>
-                                <option value="1024" selected>1024</option>
-                                <option value="2048">2048</option>
+                                <option value="1024">1024</option>
+                                <option value="2048" selected>2048</option>
                                 <option value="4096">4096</option>
                             </select>
                         </div>
@@ -173,7 +197,7 @@
                         </div>
                     </div>
                     <div class="setting-group">
-                        <h4>Enhanced Features</h4>
+                        <h4>Advanced Features</h4>
                         <div class="control-group">
                             <label>Beat Detection</label>
                             <input type="checkbox" id="beatDetection" checked>
@@ -181,6 +205,10 @@
                         <div class="control-group">
                             <label>Auto Genre Presets</label>
                             <input type="checkbox" id="autoPresets" checked>
+                        </div>
+                        <div class="control-group">
+                            <label>Story Mode</label>
+                            <input type="checkbox" id="storyMode" checked>
                         </div>
                     </div>
                 </div>
@@ -191,19 +219,19 @@
         <div id="shareModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Share Enhanced Preset</h2>
+                    <h2>Share Professional Preset</h2>
                     <button class="close-btn" onclick="closeShareModal()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="share-content">
-                        <p>Share your custom enhanced visualization preset:</p>
+                        <p>Share your custom professional visualization preset:</p>
                         <textarea id="presetCode" readonly class="preset-textarea"></textarea>
                         <div class="share-buttons">
                             <button class="btn btn-primary" onclick="copyPreset()">Copy to Clipboard</button>
                             <button class="btn btn-secondary" onclick="savePreset()">Save Locally</button>
                         </div>
                         <div class="preset-info">
-                            <small>Enhanced preset format v2.0 with 32 audio features</small>
+                            <small>Professional preset format v3.0 with 40 audio features</small>
                         </div>
                     </div>
                 </div>
